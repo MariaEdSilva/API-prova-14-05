@@ -1,20 +1,18 @@
-from Flask import Flask, jsonify, request
-from Flask_cors import CORS;
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 app = Flask(__name__)
 
 CORS(app)
 
+usuarios = [
+    {"id": 1, "nome": "Ana", "email": "ana01@gmail.com", "telefone": "14999999999"},
+    {"id": 2, "nome": "João", "email": "joao01@gmail.com", "telefone": "14988888888"}
+]
+
 @app.route("/")
 def inicio():
     return "API funcionando"
-
-app.run(debug=True)
-
-usuarios = [
-    {"nome": "Ana", "email": "ana01@gmail.com", "telefone": "14999999999"},
-    {"nome": "João", "email": "joao01@gmail.com", "telefone": "14988888888"}
-]
 
 @app.route('/usuarios', methods=['GET'])
 def listar_usuarios():
@@ -32,8 +30,13 @@ def atualizar_usuario(id):
     for usuario in usuarios:
         if usuario['id'] == id:
             dados = request.json
+
             usuario['nome'] = dados.get('nome', usuario['nome'])
+            usuario['email'] = dados.get('email', usuario['email'])
+            usuario['telefone'] = dados.get('telefone', usuario['telefone'])
+
             return jsonify(usuario)
+
     return {"erro": "Usuário não encontrado"}, 404
 
 @app.route('/usuarios/<int:id>', methods=['DELETE'])
@@ -42,6 +45,7 @@ def deletar_usuario(id):
         if usuario['id'] == id:
             usuarios.remove(usuario)
             return {"mensagem": "Usuário removido"}
+
     return {"erro": "Usuário não encontrado"}, 404
 
 if __name__ == '__main__':
