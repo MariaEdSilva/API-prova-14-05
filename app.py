@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask import jsonify
 from flask_cors import CORS
 
@@ -50,4 +50,4 @@ def deletar_usuario(id):
     return {"erro": "Usuário não encontrado"}, 404
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=10000)
