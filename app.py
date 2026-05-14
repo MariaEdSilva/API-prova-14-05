@@ -11,9 +11,6 @@ usuarios = [
     {"id": 2, "nome": "João", "email": "joao01@gmail.com", "telefone": "14988888888"}
 ]
 
-@app.route("/")
-def inicio():
-    return "API funcionando"
 
 @app.route('/usuarios', methods=['GET'])
 def listar_usuarios():
